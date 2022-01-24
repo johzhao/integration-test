@@ -84,3 +84,31 @@ func (s *DatabaseTestSuite) TestDeleteUser() {
 	err := s.db.DeleteUser(s.ctx, userID)
 	assert.NoError(s.T(), err)
 }
+
+func (s *DatabaseTestSuite) TestFindUserByID() {
+	userID := int64(1)
+
+	rows := sqlmock.NewRows([]string{"id", "name", "age"}).AddRow(userID, "zhang san", 16)
+	s.mock.ExpectQuery("SELECT \\* FROM `users` WHERE `users`.`id` = \\? ORDER BY `users`.`id` LIMIT 1").
+		WithArgs(userID).
+		WillReturnRows(rows)
+
+	user, err := s.db.FindUserByID(s.ctx, userID)
+	assert.NoError(s.T(), err)
+	assert.Equal(s.T(), user.ID, userID)
+}
+
+func (s *DatabaseTestSuite) TestSearchUsersByName() {
+	userName := "zhang san"
+
+	rows := sqlmock.NewRows([]string{"id", "name", "age"}).
+		AddRow(int64(1), userName, 20).
+		AddRow(int64(10), userName, 30)
+	s.mock.ExpectQuery("SELECT \\* FROM `users` WHERE `users`.`name` = \\?").
+		WithArgs(userName).
+		WillReturnRows(rows)
+
+	users, err := s.db.SearchUsersByName(s.ctx, userName)
+	assert.NoError(s.T(), err)
+	assert.Equal(s.T(), 2, len(users))
+}

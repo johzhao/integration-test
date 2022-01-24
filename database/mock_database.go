@@ -63,6 +63,21 @@ func (mr *MockDatabaseMockRecorder) DeleteUser(ctx, userID interface{}) *gomock.
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUser", reflect.TypeOf((*MockDatabase)(nil).DeleteUser), ctx, userID)
 }
 
+// FindUserByID mocks base method.
+func (m *MockDatabase) FindUserByID(ctx context.Context, userID int64) (*model.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindUserByID", ctx, userID)
+	ret0, _ := ret[0].(*model.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindUserByID indicates an expected call of FindUserByID.
+func (mr *MockDatabaseMockRecorder) FindUserByID(ctx, userID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindUserByID", reflect.TypeOf((*MockDatabase)(nil).FindUserByID), ctx, userID)
+}
+
 // InsertUser mocks base method.
 func (m *MockDatabase) InsertUser(ctx context.Context, user *model.User) (int64, error) {
 	m.ctrl.T.Helper()
@@ -90,4 +105,19 @@ func (m *MockDatabase) Open(dataSourceName string) error {
 func (mr *MockDatabaseMockRecorder) Open(dataSourceName interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Open", reflect.TypeOf((*MockDatabase)(nil).Open), dataSourceName)
+}
+
+// SearchUsersByName mocks base method.
+func (m *MockDatabase) SearchUsersByName(ctx context.Context, userName string) ([]*model.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SearchUsersByName", ctx, userName)
+	ret0, _ := ret[0].([]*model.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SearchUsersByName indicates an expected call of SearchUsersByName.
+func (mr *MockDatabaseMockRecorder) SearchUsersByName(ctx, userName interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchUsersByName", reflect.TypeOf((*MockDatabase)(nil).SearchUsersByName), ctx, userName)
 }

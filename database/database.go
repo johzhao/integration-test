@@ -21,6 +21,8 @@ type Database interface {
 
 	InsertUser(ctx context.Context, user *model.User) (int64, error)
 	DeleteUser(ctx context.Context, userID int64) error
+	FindUserByID(ctx context.Context, userID int64) (*model.User, error)
+	SearchUsersByName(ctx context.Context, userName string) ([]*model.User, error)
 }
 
 func NewDatabase() Database {
@@ -68,4 +70,24 @@ func (d *database) DeleteUser(ctx context.Context, userID int64) error {
 	}
 
 	return nil
+}
+
+func (d *database) FindUserByID(ctx context.Context, userID int64) (*model.User, error) {
+	var result model.User
+	err := d.db.WithContext(ctx).Where(&model.User{ID: userID}).First(&result).Error
+	if err != nil {
+		return nil, fmt.Errorf("db first: %w", err)
+	}
+
+	return &result, nil
+}
+
+func (d *database) SearchUsersByName(ctx context.Context, userName string) ([]*model.User, error) {
+	var result []*model.User
+	err := d.db.WithContext(ctx).Where(&model.User{Name: userName}).Find(&result).Error
+	if err != nil {
+		return nil, fmt.Errorf("db find: %w", err)
+	}
+
+	return result, nil
 }
