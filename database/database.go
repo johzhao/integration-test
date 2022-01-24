@@ -33,7 +33,6 @@ type database struct {
 	db *gorm.DB
 }
 
-//goland:noinspection GoUnusedParameter
 func (d *database) Open(dataSourceName string) error {
 	db, err := gorm.Open(mysql.Open(dataSourceName), &gorm.Config{})
 	if err != nil {

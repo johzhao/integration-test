@@ -28,7 +28,7 @@ func LoadDBTestFixtures(t *testing.T, db *sql.DB, dialect string, suiteName stri
 		return
 	}
 
-	dataPath := path.Join("testdata", suiteName, testName)
+	dataPath := path.Join("testdata", suiteName, testName, "database")
 	if !isPathExist(dataPath) {
 		return
 	}
